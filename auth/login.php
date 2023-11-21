@@ -1,3 +1,6 @@
+<?php
+include_once "../config.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,13 +25,23 @@
                                 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
                                 $inputUsername = $_POST["username"];
                                 $inputPassword = $_POST["password"];
+                                // Contoh: Ambil data pengguna dari database
+                                $sql = "SELECT * FROM users WHERE username='$inputUsername'";
+                                $result = $conn->query($sql);
 
-                                if ($inputUsername == $username && $inputPassword == $password) {
-                                    echo "<p class='text-success text-center'>Login berhasil. Selamat datang, $username!</p>";
-                                } else {
-                                    echo "<p class='text-danger text-center'>Login gagal. Silakan coba lagi.</p>";
-                                }
+                            if ($result->num_rows > 0) {
+                                $row = $result->fetch_assoc();
+                                $hashedPassword = $row["password"];
                             }
+                                // Verifikasi kata sandi
+                            if (password_verify($inputPassword, $hashedPassword)) {
+                            // Login berhasil, arahkan ke halaman index.php
+                                header("Location: ../dashboard.php");
+                                exit(); // Pastikan untuk keluar setelah melakukan redirect
+                            } else {
+                            echo "<p class='text-danger text-center'>Login gagal. Silakan coba lagi.</p>";
+                            }
+                        }
                         ?>
 
                         <form action="login.php" method="post">
