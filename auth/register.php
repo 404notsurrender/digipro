@@ -21,14 +21,14 @@ include_once "../config.php";
                     <div class="card-body">
                         <?php
                             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                                // Proses registrasi ketika formulir dikirimkan
+                                // Proses registrasi
                                 $username = $_POST["username"];
                                 $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
                                 $email = $_POST["email"];
 
                                 // Validasi input dan proses registrasi
 
-                                // Contoh sederhana untuk menyimpan pengguna baru
+                                // Fungsi untuk menyimpan pengguna baru ke database
                                 $checkUserQuery = "SELECT * FROM users WHERE username='$username' OR email='$email'";
                                 $result = $conn->query($checkUserQuery);
                             
