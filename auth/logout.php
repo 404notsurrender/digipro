@@ -1,5 +1,5 @@
 <?php
-session_start(); // Mulai sesi jika belum dimulai
+session_start(); // Memulai sesi
 
 // Hapus semua variabel sesi
 $_SESSION = array();
