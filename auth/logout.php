@@ -4,7 +4,7 @@ session_start(); // Memulai sesi
 // Hapus semua variabel sesi
 $_SESSION = array();
 
-// Hapus cookie sesi jika ada
+// Hapus cookie sesi
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(session_name(), '', time() - 42000,
@@ -13,10 +13,11 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
+session_unset();
 // Hancurkan sesi
 session_destroy();
 
-// Redirect ke halaman login atau halaman lain yang sesuai
+// Redirect ke halaman login
 header("Location: login.php");
 exit();
 ?>

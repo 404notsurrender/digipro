@@ -61,6 +61,7 @@ include_once "../config.php";
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Registrasi</button>
+                            <a href="login.php" class="btn btn-link">Login</a>
                         </form>
                     </div>
                 </div>
