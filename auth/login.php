@@ -1,6 +1,7 @@
 <?php
 require_once "../config.php";
 
+session_start();
 // Setelah login berhasil
 $_SESSION["username"] = $username; 
 
@@ -11,7 +12,7 @@ $_SESSION["username"] = $username;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Member</title>
-    <!-- Sertakan pustaka Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
@@ -39,6 +40,7 @@ $_SESSION["username"] = $username;
                                     // Verifikasi kata sandi
                                     if (password_verify($inputPassword, $hashedPassword)) {
                                         // Login berhasil, arahkan ke halaman dashboard.php
+                                        $_SESSION["id"] = $row["id"]; 
                                         header("Location: ../dashboard.php");
                                         exit(); // Pastikan untuk keluar setelah melakukan redirect
                                     } else {

@@ -1,4 +1,5 @@
 <?php
+$websitename = "Digital Canteen";
 $dashboard = "dashboard.php";
 $login = "auth/login.php";
 $register = "auth/register.php";
