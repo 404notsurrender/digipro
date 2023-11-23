@@ -24,7 +24,7 @@ Go to the project directory
   cd digipro
 ```
 
-Start Apache and MYSQL
+Start Apache and MYSQ
 
 ## Authors
 
