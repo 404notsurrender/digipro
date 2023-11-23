@@ -6,5 +6,8 @@ ini adalah website kantin
 - Menggunakan session cookies.
 - (MASIH DALAM PENGEMBANGAN).
 
-# Author
-Muhammad Dafa Zulfikar.
+## Authors
+
+- [@404notsurrender](https://www.github.com/404notsurrender) Muhammad Dafa Zulfikar
+- [@TOWBOAT](https://github.com/TOWBOAT-08) Juan Oswald
+- [@LukiestAnimal](https://github.com/NaufalBudiman) NaufalBudiman
