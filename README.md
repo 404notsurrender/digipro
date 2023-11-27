@@ -7,7 +7,7 @@ ini adalah tugas Secure Programming
 - Login menggunakan fungsi hash yang aman seperti bcrypt untuk menyimpan kata sandi pengguna.
 - Menggunakan session cookies.
 - Fitur filter input
-- Profile Settings (update email).
+- Profile Settings (update email & password).
 
 
 ## Run Locally
