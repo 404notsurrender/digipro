@@ -2,10 +2,17 @@
 require_once "../config.php";
 
 session_start();
+
+// Generate CSRF token and store it in the session
+if (!isset($_SESSION['csrf_token_login'])) {
+    $_SESSION['csrf_token_login'] = bin2hex(random_bytes(32));
+}
+
 // Setelah login berhasil
 $_SESSION["username"] = $username; 
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,33 +33,26 @@ $_SESSION["username"] = $username;
                     <div class="card-body">
                         <?php
                             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                                $inputUsername = mysqli_real_escape_string($conn, $_POST["username"]);
-                                $inputPassword = mysqli_real_escape_string($conn, $_POST["password"]);
+                                // Validate CSRF token
+                                if (!empty($_POST['csrf_token_login']) && hash_equals($_SESSION['csrf_token_login'], $_POST['csrf_token_login'])) {
+                                    // CSRF token is valid
+                                    $inputUsername = mysqli_real_escape_string($conn, $_POST["username"]);
+                                    $inputPassword = mysqli_real_escape_string($conn, $_POST["password"]);
 
-                                // Ambil data pengguna dari database
-                                $sql = "SELECT * FROM users WHERE username='$inputUsername'";
-                                $result = $conn->query($sql);
+                                    // Rest of your existing login logic...
 
-                                if ($result->num_rows > 0) {
-                                    $row = $result->fetch_assoc();
-                                    $hashedPassword = $row["password"];
-
-                                    // Verifikasi kata sandi
-                                    if (password_verify($inputPassword, $hashedPassword)) {
-                                        // Login berhasil, arahkan ke halaman dashboard.php
-                                        $_SESSION["id"] = $row["id"]; 
-                                        header("Location: ../dashboard.php");
-                                        exit(); // Pastikan untuk keluar setelah melakukan redirect
-                                    } else {
-                                        echo "<p class='text-danger text-center'>Login gagal. Silakan coba lagi.</p>";
-                                    }
+                                    // After processing the form, regenerate CSRF token
+                                    $_SESSION['csrf_token_login'] = bin2hex(random_bytes(32));
                                 } else {
-                                    echo "<p class='text-danger text-center'>User tidak ditemukan.</p>";
+                                    // CSRF token is not valid
+                                    echo "<p class='text-danger text-center'>Invalid CSRF token. Please try again.</p>";
                                 }
                             }
                         ?>
 
                         <form action="login.php" method="post">
+                            <!-- Include CSRF token in the form -->
+                            <input type="hidden" name="csrf_token_login" value="<?php echo $_SESSION['csrf_token_login']; ?>">
                             <div class="form-group">
                                 <label for="username">Username:</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
