@@ -32,7 +32,7 @@ $_SESSION["username"] = $username;
                                     $csrf_token_login = $_POST['csrf_token_login'];
                                 } else {
                                     // Log this as a warning and keep an eye on these attempts
-                                    echo "<p class='text-danger text-center'>CSRF token validation failed.</p>";
+                                    echo "<div class='alert alert-danger' role='alert'>Invalid CSRF token. Please try again.!</div>";
                                 }
                                 $inputUsername = mysqli_real_escape_string($conn, $_POST["username"]);
                                 $inputPassword = mysqli_real_escape_string($conn, $_POST["password"]);
@@ -52,10 +52,10 @@ $_SESSION["username"] = $username;
                                         header("Location: ../dashboard.php");
                                         exit(); // Pastikan untuk keluar setelah melakukan redirect
                                     } else {
-                                        echo "<p class='text-danger text-center'>Login gagal. Silakan coba lagi.</p>";
+                                        echo "<div class='alert alert-danger' role='alert'>Login gagal! Silahkan coba kembali</div>";
                                     }
                                 } else {
-                                    echo "<p class='text-danger text-center'>User tidak ditemukan.</p>";
+                                    echo "<div class='alert alert-danger' role='alert'>User tidak ditemukan!</div>";
                                 }
                             }
                         ?>
