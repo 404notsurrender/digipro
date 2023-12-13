@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php include "view.php"; ?>
+            <?php include "read.php"; ?>
         </tbody>
     </table>
 
