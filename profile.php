@@ -17,12 +17,11 @@
             $new_email = $_POST['new_email'];
             $id = $_SESSION['id'];
             global $conn;
+            $new_email = mysqli_real_escape_string($conn, $new_email);
+            $stmt = $conn->prepare("UPDATE users SET email = ? WHERE id = ?");
+            $stmt->bind_param('si', $new_email, $id);
+            $stmt->execute();
 
-            $query = "UPDATE users SET email = '$new_email' WHERE id = '$id'";
-            $query = "UPDATE users SET email = '$new_email' WHERE id = '$id'";
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':new_email', $new_email);
-            $stmt->bindParam(':id', $id);
             
             $data = $stmt->execute();
 
@@ -34,6 +33,7 @@
                 echo "<script>window.location.replace('profile.php')</script>";
             }
         }
+            $stmt->close();
 
         if(isset($_POST['new_password'])){
             $inputPassword = mysqli_real_escape_string($conn, $_POST["current_password"]);
