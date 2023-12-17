@@ -19,33 +19,40 @@ include_once "../config.php";
                         <h1 class="text-center">Registrasi Member</h1>
                     </div>
                     <div class="card-body">
-                        <?php
-                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                                // Proses registrasi
-                                $username = $_POST["username"];
-                                $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
-                                $email = $_POST["email"];
+                    <?php
 
-                                // Validasi input dan proses registrasi
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $username = $_POST["username"];
+                    $password = $_POST["password"];
+                    $email = $_POST["email"];
 
-                                // Fungsi untuk menyimpan pengguna baru ke database
-                                $checkUserQuery = "SELECT * FROM users WHERE username='$username' OR email='$email'";
-                                $result = $conn->query($checkUserQuery);
-                            
-                                if ($result->num_rows > 0) {
-                                    echo "<p class='text-danger text-center'>Username atau email sudah terdaftar. Silakan gunakan yang lain.</p>";
-                                } else {
-                                    // Jika username dan email belum terdaftar, lakukan registrasi
-                                    $registerQuery = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
-                            
-                                    if ($conn->query($registerQuery) === TRUE) {
-                                        echo "<p class='text-success text-center'>Registrasi berhasil. Silakan login.</p>";
-                                    } else {
-                                        echo "<p class='text-danger text-center'>Error: " . $registerQuery . "<br>" . $conn->error . "</p>";
-                                    }
-                                }
-                            }
-                        ?>
+                    // Validasi minimal karakter, campuran huruf besar, huruf kecil, angka, dan karakter khusus
+                    if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || !preg_match('/[0-9]/', $password) || !preg_match('/[^A-Za-z0-9]/', $password)) {
+                    echo "<div class='alert alert-danger' role='alert'>Password harus memiliki minimal 8 karakter dan mengandung campuran huruf besar, huruf kecil, angka, dan karakter khusus.</div>";
+                    
+                    } else {
+                    // Lanjutkan dengan proses registrasi
+                    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+                    // Fungsi untuk menyimpan pengguna baru ke database
+                    $checkUserQuery = "SELECT * FROM users WHERE username='$username' OR email='$email'";
+                    $result = $conn->query($checkUserQuery);
+
+                    if ($result->num_rows > 0) {
+                    echo "<div class='alert alert-danger' role='alert'>Username atau email sudah terdaftar. Silakan gunakan yang lain.</div";
+                    } else {
+                    // Jika username dan email belum terdaftar, lakukan registrasi
+                    $registerQuery = "INSERT INTO users (username, password, email) VALUES ('$username', '$hashedPassword', '$email')";
+
+                    if ($conn->query($registerQuery) === TRUE) {
+                    echo "<div class='alert alert-success' role='alert'>Registrasi berhasil. Silakan login.</div>";
+                    } else {
+                    echo "<div class='alert alert-danger' role='alert'>Error: " . $registerQuery . "<br>" . $conn->error . "</div>";
+                    }
+                }
+            }
+        }
+    ?>
 
                         <form action="register.php" method="post">
                             <div class="form-group">

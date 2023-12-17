@@ -1,6 +1,11 @@
 <?php
 session_start(); // Memulai sesi 
-require_once("pages.php");
+include_once("pages.php");
+include_once "config.php";
+
+$sql = "SELECT * FROM users WHERE id = " . $_SESSION['id'];
+$result = $conn->query($sql);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
