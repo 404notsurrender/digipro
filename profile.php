@@ -19,7 +19,12 @@
             global $conn;
 
             $query = "UPDATE users SET email = '$new_email' WHERE id = '$id'";
-            $data = $conn -> query($query);
+            $query = "UPDATE users SET email = '$new_email' WHERE id = '$id'";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':new_email', $new_email);
+            $stmt->bindParam(':id', $id);
+            
+            $data = $stmt->execute();
 
             if ($data) {
                 echo "<script>alert('Email berhasil diubah!')</script>";
